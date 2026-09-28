@@ -25,6 +25,7 @@ import type {
   Settings,
 } from '../types';
 import { buildSeed } from '../data/seed';
+import { CATEGORY_IMAGES } from '../data/images';
 
 const PREFIX = 'hfp_';
 const SEED_FLAG = `${PREFIX}seeded_v1`;
@@ -68,8 +69,24 @@ export function loadAll(): AllData {
     return seed;
   }
   const seed = buildSeed();
+  const menu = read<MenuItem[]>('menu', seed.menu);
+  // Migrate menu items saved by older builds whose `image` pointed at the
+  // removed /images/... folder (or was empty): point them at the bundled
+  // category photo. Genuinely custom URLs (http/https/data:) are preserved.
+  let migrated = false;
+  for (const item of menu) {
+    const img = item.image ?? '';
+    if (img === '' || img.startsWith('/images/')) {
+      const fixed = CATEGORY_IMAGES[item.category] ?? seed.menu.find((m) => m.id === item.id)?.image ?? '';
+      if (fixed && fixed !== img) {
+        item.image = fixed;
+        migrated = true;
+      }
+    }
+  }
+  if (migrated) write('menu', menu);
   return {
-    menu: read<MenuItem[]>('menu', seed.menu),
+    menu,
     orders: read<Order[]>('orders', seed.orders),
     customers: read<Customer[]>('customers', seed.customers),
     employees: read<Employee[]>('employees', seed.employees),
