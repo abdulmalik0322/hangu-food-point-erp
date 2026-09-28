@@ -20,8 +20,8 @@ import type {
   Settings,
 } from '../types';
 import type { AllData } from '../api/db';
-import { CATEGORY_IMAGES } from './images';
-export { CATEGORY_IMAGES };
+import { CATEGORY_IMAGES, ITEM_IMAGES } from './images';
+export { CATEGORY_IMAGES, ITEM_IMAGES };
 
 type MenuSeed = [name: string, category: string, description: string, price: number];
 
@@ -73,15 +73,18 @@ export const MENU_SEED: MenuSeed[] = [
   ['Doodh Patti', 'Drinks', 'Slow-brewed milky chai, desi style', 120],
 ];
 
-const menu: MenuItem[] = MENU_SEED.map(([name, category, description, price], i) => ({
-  id: `MI-${String(i + 1).padStart(4, '0')}`,
-  name,
-  category,
-  description,
-  price,
-  image: CATEGORY_IMAGES[category],
-  available: true,
-}));
+const menu: MenuItem[] = MENU_SEED.map(([name, category, description, price], i) => {
+  const id = `MI-${String(i + 1).padStart(4, '0')}`;
+  return {
+    id,
+    name,
+    category,
+    description,
+    price,
+    image: ITEM_IMAGES[id] ?? CATEGORY_IMAGES[category],
+    available: true,
+  };
+});
 
 // --------------------------------------------------------------- customers
 const customers: Customer[] = [
