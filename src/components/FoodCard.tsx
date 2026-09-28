@@ -1,8 +1,31 @@
 /** Food item card — full card for the Menu page, compact tile for the POS. */
+import { useState } from 'react';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import type { MenuItem } from '../types';
 import { formatPKR } from '../utils/format';
 import { Badge } from './ui';
+
+/** Image with graceful fallback: if the photo fails to load for any reason,
+ *  show the letter tile instead of a broken-image icon. */
+function FoodImage({ src, alt, name, size }: { src?: string; alt: string; name: string; size: string }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <div className={`relative h-full w-full ${size}`}>
+      <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br from-orange-100 to-amber-200 font-extrabold text-orange-400 ${size}`}>
+        {name.charAt(0).toUpperCase()}
+      </div>
+      {src && !failed && (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+    </div>
+  );
+}
 
 export function FoodCard({ item, onEdit, onDelete, onToggle }: {
   item: MenuItem;
@@ -13,13 +36,7 @@ export function FoodCard({ item, onEdit, onDelete, onToggle }: {
   return (
     <div className={`card animate-fade-up overflow-hidden transition hover:-translate-y-1 hover:shadow-lg ${!item.available ? 'opacity-75' : ''}`}>
       <div className="relative h-36">
-        {item.image ? (
-          <img src={item.image} alt={item.name} className="h-full w-full object-cover" loading="lazy" />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-orange-100 to-amber-200 text-3xl font-extrabold text-orange-400">
-            {item.name[0]}
-          </div>
-        )}
+        <FoodImage src={item.image} alt={item.name} name={item.name} size="text-3xl" />
         <span className="absolute left-2 top-2 rounded-full bg-stone-950/70 px-2.5 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
           {item.category}
         </span>
@@ -59,13 +76,7 @@ export function FoodTile({ item, onAdd }: { item: MenuItem; onAdd: () => void })
       className="card group overflow-hidden p-0 text-left transition hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60"
     >
       <div className="relative h-24">
-        {item.image ? (
-          <img src={item.image} alt={item.name} className="h-full w-full object-cover" loading="lazy" />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-orange-100 to-amber-200 text-2xl font-extrabold text-orange-400">
-            {item.name[0]}
-          </div>
-        )}
+        <FoodImage src={item.image} alt={item.name} name={item.name} size="text-2xl" />
         {!item.available && (
           <div className="absolute inset-0 flex items-center justify-center bg-stone-950/50">
             <Badge tone="gray">Unavailable</Badge>

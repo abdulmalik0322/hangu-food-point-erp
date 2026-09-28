@@ -10,7 +10,7 @@ export interface MenuItem {
   category: string; // one of MENU_CATEGORIES
   description: string;
   price: number; // PKR — change prices in src/data/seed.ts (MENU_ITEMS)
-  image?: string; // /images/cat-*.jpg
+  image?: string; // bundled category photo (src/assets) or custom URL
   available: boolean;
 }
 

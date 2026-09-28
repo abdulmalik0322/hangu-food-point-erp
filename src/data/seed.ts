@@ -20,16 +20,8 @@ import type {
   Settings,
 } from '../types';
 import type { AllData } from '../api/db';
-
-/** Category → food photo shown on menu cards and in the POS. */
-export const CATEGORY_IMAGES: Record<string, string> = {
-  Burgers: '/images/cat-burgers.jpg',
-  'Shawarma & Rolls': '/images/cat-shawarma.jpg',
-  'Pakistani BBQ': '/images/cat-bbq.jpg',
-  'Fried Items': '/images/cat-fried.jpg',
-  'Pakistani Food': '/images/cat-desi.jpg',
-  Drinks: '/images/cat-drinks.jpg',
-};
+import { CATEGORY_IMAGES } from './images';
+export { CATEGORY_IMAGES };
 
 type MenuSeed = [name: string, category: string, description: string, price: number];
 

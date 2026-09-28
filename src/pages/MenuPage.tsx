@@ -6,15 +6,7 @@ import { EmptyState, Field, Modal, PageHeader, SearchBar } from '../components/u
 import { FoodCard } from '../components/FoodCard';
 import { MENU_CATEGORIES } from '../types';
 import type { MenuItem } from '../types';
-
-const CATEGORY_IMAGE: Record<string, string> = {
-  'Burgers': '/images/cat-burgers.jpg',
-  'Shawarma & Rolls': '/images/cat-shawarma.jpg',
-  'Pakistani BBQ': '/images/cat-bbq.jpg',
-  'Fried Items': '/images/cat-fried.jpg',
-  'Pakistani Food': '/images/cat-desi.jpg',
-  'Drinks': '/images/cat-drinks.jpg',
-};
+import { CATEGORY_IMAGES as CATEGORY_IMAGE } from '../data/images';
 
 interface FormState {
   name: string;
@@ -242,7 +234,7 @@ export default function MenuPage() {
                 className="input"
                 value={form.image}
                 onChange={(e) => set({ image: e.target.value })}
-                placeholder="/images/cat-burgers.jpg"
+                placeholder="Image URL (optional)"
               />
             </div>
             <p className="mt-1 text-[11px] text-stone-400">Auto-set from category — you can override it.</p>

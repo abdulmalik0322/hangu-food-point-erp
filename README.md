@@ -16,11 +16,14 @@ hangu-food-point/
 ├── package.json               # scripts: dev / build / preview
 ├── vite.config.ts             # Vite + React + Tailwind plugins
 ├── tsconfig*.json             # strict TypeScript config
-├── public/
-│   └── images/                # AI-generated food category photos
-│       ├── cat-burgers.jpg  cat-shawarma.jpg  cat-bbq.jpg
-│       ├── cat-fried.jpg    cat-desi.jpg      cat-drinks.jpg
+├── public/                    # static files served as-is
 └── src/
+    ├── assets/                  # food category photos (bundled by Vite)
+    │       ├── cat-burgers.jpg  cat-shawarma.jpg  cat-bbq.jpg
+    │       ├── cat-fried.jpg    cat-desi.jpg      cat-drinks.jpg
+    ├── data/
+    │   ├── images.ts            # category → bundled photo mapping
+    │   └── seed.ts            # ★ demo dataset + ★ ALL MENU PRICES (PKR)
     ├── main.tsx               # React entry point
     ├── App.tsx                # page router (state-based) + providers
     ├── index.css              # Tailwind + theme + reusable classes
@@ -29,8 +32,6 @@ hangu-food-point/
     │                            (MenuItem, Order, Customer, Employee,
     │                             PayrollRecord, AttendanceRecord, Expense,
     │                             InventoryItem, Settings, MENU_CATEGORIES …)
-    ├── data/
-    │   └── seed.ts            # ★ demo dataset + ★ ALL MENU PRICES (PKR)
     ├── api/
     │   └── db.ts              # ★ persistence layer (localStorage now,
     │                            HTTP later) + unique-ID counters
@@ -183,7 +184,3 @@ salary slip print/PDF · attendance marking + monthly summary · expenses + tota
 reports (KPIs, charts, print, CSV) · inventory + low/out-of-stock alerts ·
 settings applied to invoices/reports · global search · toasts · confirm dialogs ·
 pagination · form validation · empty states · fully responsive · PKR everywhere.
-
-## Live demo
-
-https://abdulmalik0322.github.io/hangu-food-point-erp/
